@@ -1,5 +1,5 @@
 .container {
-  width: 250px;
+  width: 400px;
   display: flex;
   justify-content: space-between;
   gap: 5px;
@@ -21,6 +21,8 @@
 .button {
   padding: 10px;
   background-color: aqua;
+  color: rgb(214, 36, 36);
+  font-weight: 700;
 }
 .button:hover,
 .button:focus {
