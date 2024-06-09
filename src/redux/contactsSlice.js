@@ -1,20 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { fetchContacts, addContact, deleteContact } from "./contactsOps";
-
-const formatPhoneNumber = (value) => {
-  const phoneNumber = value.replace(/[^\d]/g, "");
-  const match = phoneNumber.match(/^(\d{0,3})(\d{0,2})(\d{0,2})$/);
-  if (match) {
-    return match.slice(1).filter(Boolean).join("-");
-  }
-  return "";
-};
 
 const initialState = {
   items: [],
   loading: false,
   error: null,
 };
+
+export const selectContacts = (state) => state.contacts.items;
+export const selectLoading = (state) => state.contacts.loading;
+export const selectError = (state) => state.contacts.error;
+
+export const selectNameFilter = (state) => state.filters.name;
+
+export const selectFilteredContacts = createSelector(
+  [selectContacts, selectNameFilter],
+  (contacts, filter) => {
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
+);
 
 const contactsSlice = createSlice({
   name: "contacts",
@@ -61,9 +67,5 @@ const contactsSlice = createSlice({
       });
   },
 });
-
-export const selectContacts = (state) => state.contacts.items;
-export const selectLoading = (state) => state.contacts.loading;
-export const selectError = (state) => state.contacts.error;
 
 export default contactsSlice.reducer;
