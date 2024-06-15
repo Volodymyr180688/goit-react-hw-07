@@ -17,23 +17,23 @@ const ContactForm = () => {
     number: "",
   };
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Required").min(3, "Too Short!").max(50, "Too Long!"),
-    number: Yup.string()
-      .required("Required")
-      .min(3, "Too Short!")
-      .max(50, "Too Long!")
-      .matches(/^\d{0,3}-?\d{0,2}-?\d{0,2}$/, "Invalid phone number format"),
-  });
+ const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Required").min(3, "Too Short!").max(50, "Too Long!"),
+  number: Yup.string()
+    .required("Required")
+    .min(3, "Too Short!")
+    .max(50, "Too Long!")
+    .matches(/^\d{0,3}-?\d{0,2}-?\d{0,2}(-?\d{0,2})?$/, "Invalid phone number format"),
+});
 
-  const formatPhoneNumber = (value) => {
-    const phoneNumber = value.replace(/[^\d]/g, "");
-    const match = phoneNumber.match(/^(\d{0,3})(\d{0,2})(\d{0,2})$/);
-    if (match) {
-      return match.slice(1).filter(Boolean).join("-");
-    }
-    return "";
-  };
+const formatPhoneNumber = (value) => {
+  const phoneNumber = value.replace(/[^\d]/g, "");
+  const match = phoneNumber.match(/^(\d{0,3})(\d{0,2})(\d{0,2})(\d{0,2})?$/);
+  if (match) {
+    return match.slice(1).filter(Boolean).join("-");
+  }
+  return "";
+};
 
   const handleChange = (event, formikProps) => {
     const { value } = event.target;
